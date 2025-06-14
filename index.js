@@ -9,4 +9,5 @@ client.once(Events.ClientReady, readyClient => {
     console.log('ok am in');
 });
 
+
 client.login(token);
