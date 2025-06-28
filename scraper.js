@@ -7,6 +7,13 @@ import puppeteer from 'puppeteer';
 
   await page.goto('https://famat.org/results/static/reports/Full_Precalculus_Indv_Cypress%20Bay%20Regional%20March%202025.html');
 
+  // await page.waitForSelector('a', '2025-State-Convention');
+  // await page.click('a', '2025-State-Convention');
+
+  // await page.screenshot({
+  //   path: 'hn.png',
+  // });
+
   await page.setViewport({width: 1080, height: 1024});
 
   await page.type('tr', 'Coral Springs Charter');
