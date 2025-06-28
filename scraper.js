@@ -9,21 +9,30 @@ import puppeteer from 'puppeteer';
 
   await page.setViewport({width: 1080, height: 1024});
 
-  await page.type('tr', 'Coral Springs Charter');
+  await page.type('td', 'Coral Springs Charter');
 
-  await page.waitForSelector('tr');
+  await page.waitForSelector('td');
 
   const textSelector = await page.waitForSelector(
     'text/Coral Springs Charter',
   );
 
-//   const results = await textSelector?.evaluate(el => el.textContent);
+  // const results = await textSelector?.evaluate(el => el.textContent);
 
   const results = await textSelector?.evaluate(() => {
-  return Array.from(document.querySelectorAll('tr')).map(el => el.textContent);
+  return Array.from(document.querySelectorAll('td')).map(el => el.textContent);
   });
 
-  console.log(results);
+  const sorted = [];
+
+  for (let i = 0; i < results.length; i++){
+    if (results[i].includes('Coral Springs Charter')){
+      console.log(results[i]);
+      sorted.push(results[i]);
+    }
+  }
+
+  console.log(sorted);
 
   await browser.close();
 })();
