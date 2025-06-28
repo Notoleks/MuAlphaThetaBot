@@ -9,9 +9,9 @@ import puppeteer from 'puppeteer';
 
   await page.setViewport({width: 1080, height: 1024});
 
-  await page.type('td', 'Coral Springs Charter');
+  await page.type('tr', 'Coral Springs Charter');
 
-  await page.waitForSelector('td');
+  await page.waitForSelector('tr');
 
   const textSelector = await page.waitForSelector(
     'text/Coral Springs Charter',
@@ -20,19 +20,24 @@ import puppeteer from 'puppeteer';
   // const results = await textSelector?.evaluate(el => el.textContent);
 
   const results = await textSelector?.evaluate(() => {
-  return Array.from(document.querySelectorAll('td')).map(el => el.textContent);
+  return Array.from(document.querySelectorAll('tr')).map(el => el.textContent);
   });
 
   const sorted = [];
 
+
   for (let i = 0; i < results.length; i++){
     if (results[i].includes('Coral Springs Charter')){
-      console.log(results[i]);
       sorted.push(results[i]);
+      
     }
   }
 
-  console.log(sorted);
+  const newSorted = sorted.map(str => {
+    return str.replaceAll('\n', '')
+  });
+
+  console.log(newSorted);
 
   await browser.close();
 })();
