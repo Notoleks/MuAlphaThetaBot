@@ -17,9 +17,13 @@ import puppeteer from 'puppeteer';
     'text/Coral Springs Charter',
   );
 
-  const competition = await textSelector?.evaluate(el => el.textContent);
+//   const results = await textSelector?.evaluate(el => el.textContent);
 
-  console.log(competition);
+  const results = await textSelector?.evaluate(() => {
+  return Array.from(document.querySelectorAll('tr')).map(el => el.textContent);
+  });
+
+  console.log(results);
 
   await browser.close();
 })();
