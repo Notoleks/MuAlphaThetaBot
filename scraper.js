@@ -18,56 +18,56 @@ import puppeteer from 'puppeteer';
   const competitionSelector = 'text/Cypress Bay';
   await page.waitForSelector(competitionSelector);
   await page.click(competitionSelector);
+  const schoolName = 'Coral Springs Charter'
 
-  for (let i = 0; i < 7; i++){
+  for (let i = 0; i < 12; i++){
     divNum += 1;
     await page.goto('https://famat.org/results/2025-March-Regional-at-Cypress-Bay/');
     const categorySelector = `::-p-xpath(//*[@id="results-container"]/div[${divNum}]/div/a[1])`;
     await page.waitForSelector(categorySelector, { visible: true });
     await page.click(categorySelector);
-    
+    console.log(categorySelector);
 
     await page.waitForSelector('tr');
 
 
-    const csc = await page.$$eval('text/Coral Springs Charter', elements => elements);
+    const csc = await page.$$eval(`text/${schoolName}`, elements => elements);
     if (csc.length > 0){
-      await page.type('tr', 'Coral Springs Charter');
-        const textSelector = await page.waitForSelector(
-      'text/Coral Springs Charter',   
-    );
+      await page.type('tr', schoolName);
+      const textSelector = await page.waitForSelector(
+        `text/${schoolName}`,   
+      );
 
 
-    const results = await textSelector?.evaluate(() => {
-    return Array.from(document.querySelectorAll('tr')).map(el => el.textContent);
-    });
+      const results = await textSelector?.evaluate(() => {
+        return Array.from(document.querySelectorAll('tr')).map(el => el.textContent);
+      });
+      
+      // console.log('results: ',results);
 
-    const sorted = [];
+      const sorted = [];
 
 
-    for (let i = 0; i < results.length; i++){
-      if (results[i].includes('Coral Springs Charter')){
-        sorted.push(results[i]);
-        
+      for (let i = 0; i < results.length; i++){
+        if (results[i].includes(schoolName)){
+          sorted.push(results[i]);
+        }
+        else {
+          continue;
+        }
       }
-      else {
-        break;
-      }
-    }
 
-    const newSorted = sorted.map(str => {
-      return str.replaceAll('\n', '')
-    });
-
-    console.log(newSorted);
+      const newSorted = sorted.map(str => {
+        return str.replaceAll('\n', '')
+      });
+      console.log(newSorted);
     }
     else {
-      break;
+      console.log('breaking after new');
+      
     }
-
-
-
   }
+  
   await browser.close();
 })();
 
