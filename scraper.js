@@ -21,7 +21,7 @@ import puppeteer from 'puppeteer';
 
   for (let i = 0; i < 7; i++){
     divNum += 1;
-    await page.goto('https://famat.org/results/2025-March-Regional-at-Cypress-Bay/')
+    await page.goto('https://famat.org/results/2025-March-Regional-at-Cypress-Bay/');
     const categorySelector = `::-p-xpath(//*[@id="results-container"]/div[${divNum}]/div/a[1])`;
     await page.waitForSelector(categorySelector, { visible: true });
     await page.click(categorySelector);
@@ -30,7 +30,7 @@ import puppeteer from 'puppeteer';
     await page.waitForSelector('tr');
 
 
-    const csc = await page.$$eval('text/Coral Springs Charter')
+    const csc = await page.$$eval('text/Coral Springs Charter', elements => elements);
     if (csc.length > 0){
       await page.type('tr', 'Coral Springs Charter');
         const textSelector = await page.waitForSelector(
