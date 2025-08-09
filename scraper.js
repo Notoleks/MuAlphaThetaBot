@@ -1,11 +1,27 @@
+// const { createInterface } = await import('readline');
+import readline from 'node:readline/promises';
+import { stdin as input, stdout as output } from 'node:process';
 import puppeteer from 'puppeteer';
-
+const rl = readline.createInterface({ input, output })
+const link = await rl.question("What is your link to scrape? ")
 (async () => {
 
+  const linkInterface = createInterface({
+  input: process.stdin,
+  output: process.stdout
+  }); 
+
+  const linkScraped = linkInterface.question('what is your quest? ', (answer) => {
+    console.log(answer);
+    return answer;
+  });
+  console.log(linkScraped);
+  linkInterface.close();
   const browser = await puppeteer.launch({headless: false});
   const page = await browser.newPage();
 
   let divNum = 1;
+
   
 
   // await page.goto('https://famat.org/results/static/reports/Full_Precalculus_Indv_Cypress%20Bay%20Regional%20March%202025.html');
@@ -21,12 +37,13 @@ import puppeteer from 'puppeteer';
   const schoolName = 'Coral Springs Charter'
 
   for (let i = 0; i < 12; i++){
+
     divNum += 1;
-    await page.goto('https://famat.org/results/2025-March-Regional-at-Cypress-Bay/');
+    await page.goto(link);
     const categorySelector = `::-p-xpath(//*[@id="results-container"]/div[${divNum}]/div/a[1])`;
     await page.waitForSelector(categorySelector, { visible: true });
     await page.click(categorySelector);
-    console.log(categorySelector);
+    // console.log(categorySelector);
 
     await page.waitForSelector('tr');
 
@@ -63,7 +80,7 @@ import puppeteer from 'puppeteer';
       console.log(newSorted);
     }
     else {
-      console.log('breaking after new');
+      // console.log('breaking after new');
       
     }
   }
