@@ -6,6 +6,7 @@ import puppeteer from 'puppeteer';
   const page = await browser.newPage();
 
   let divNum = 1;
+  let linkscraped = prompt("Eneter Link of Comp Results:");
   
 
   // await page.goto('https://famat.org/results/static/reports/Full_Precalculus_Indv_Cypress%20Bay%20Regional%20March%202025.html');
@@ -22,11 +23,11 @@ import puppeteer from 'puppeteer';
 
   for (let i = 0; i < 12; i++){
     divNum += 1;
-    await page.goto('https://famat.org/results/2025-March-Regional-at-Cypress-Bay/');
+    await page.goto(linkscraped);
     const categorySelector = `::-p-xpath(//*[@id="results-container"]/div[${divNum}]/div/a[1])`;
     await page.waitForSelector(categorySelector, { visible: true });
     await page.click(categorySelector);
-    console.log(categorySelector);
+    // console.log(categorySelector);
 
     await page.waitForSelector('tr');
 
@@ -43,7 +44,6 @@ import puppeteer from 'puppeteer';
         return Array.from(document.querySelectorAll('tr')).map(el => el.textContent);
       });
       
-      // console.log('results: ',results);
 
       const sorted = [];
 
@@ -63,7 +63,7 @@ import puppeteer from 'puppeteer';
       console.log(newSorted);
     }
     else {
-      console.log('breaking after new');
+      // console.log('breaking after new');
       
     }
   }
