@@ -1,12 +1,35 @@
 import puppeteer from 'puppeteer';
 
-(async () => {
+//'https://famat.org/results/2025-March-Regional-at-Cypress-Bay/'
+function getUserInput(prompt) {
+    return new Promise((resolve) => {
+        process.stdout.write(prompt); // Show the prompt to the user
+
+        process.stdin.on('data', (data) => {
+            const input = data.toString().trim(); // Convert input to a string and remove extra spaces
+            resolve(input); // Store the input in the promise
+            // process.stdin.pause(); // Stop listening for more input
+        });
+    });
+}
+
+(async () => {  
 
   const browser = await puppeteer.launch({headless: false});
   const page = await browser.newPage();
 
   let divNum = 1;
 
+  // await process.stdout.write('Please enter comp link');
+
+  // var textInput = process.stdin.on('data', (data) => {
+  //   const compLink = data.toString().trim();
+  //   return compLink
+  
+  // });
+  // console.log(textInput);
+
+  const compLink = await getUserInput('Enter comp results link');
 
   // await page.goto('https://famat.org/results/static/reports/Full_Precalculus_Indv_Cypress%20Bay%20Regional%20March%202025.html');
   await page.goto('https://famat.org/results/');
@@ -22,7 +45,7 @@ import puppeteer from 'puppeteer';
 
   for (let i = 0; i < 12; i++){
     divNum += 1;
-    await page.goto('https://famat.org/results/2025-March-Regional-at-Cypress-Bay/');
+    await page.goto(compLink);
     const categorySelector = `::-p-xpath(//*[@id="results-container"]/div[${divNum}]/div/a[1])`;
     await page.waitForSelector(categorySelector, { visible: true });
     await page.click(categorySelector);
@@ -62,9 +85,6 @@ import puppeteer from 'puppeteer';
       console.log('breaking after new');
       
     }
-
-
-
   }
   
   await browser.close();
