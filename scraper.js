@@ -50,8 +50,10 @@ function getUserInput(prompt) {
   for (let i = 0; i < 12; i++){
     divNum += 1;
     await page.goto(compLink);
-
-    const categorySelector = `::-p-xpath(//*[@id="results-container"]/div[${divNum}]/h4)`
+    await page.waitForSelector('h4');
+    //todo
+    // const competition = await.
+    // const categorySelector = `::-p-xpath(//*[@id="results-container"]/div[${divNum}]/h4)`
     const resultLink = `::-p-xpath(//*[@id="results-container"]/div[${divNum}]/div/a[1])`;
     await page.waitForSelector(resultLink, { visible: true });
     await page.click(resultLink);
